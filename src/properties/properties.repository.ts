@@ -7,7 +7,17 @@ import {User} from "../auth/user.entity";
 @EntityRepository(Property)
 export class PropertiesRepository extends Repository<Property> {
     async createProperty(createMealDto: CreatePropertyDto, user: User): Promise<Property> {
-        const {digestion, feeling, hungerRatingBefore, mood, satietyRatingAfter, thinking, time, whatDidYouDrink, whatDidYouEat} = createMealDto;
+        const {
+            digestion,
+            feeling,
+            hungerRatingBefore,
+            mood,
+            satietyRatingAfter,
+            thinking,
+            time,
+            whatDidYouDrink,
+            whatDidYouEat
+        } = createMealDto;
         const property = new Property();
         // meal.digestion = digestion;
         // meal.feeling = feeling;
@@ -27,7 +37,11 @@ export class PropertiesRepository extends Repository<Property> {
 
     async getProperties(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
         const {status, search} = filterDto;
-        const query = this.createQueryBuilder('properties');
+        const query = this.createQueryBuilder('property');
+        if (filterDto.limit) {
+            query.limit(filterDto.limit)
+        }
+        query.orderBy('property.id', "DESC")
 
         const properties = await query.getMany()
         return properties;

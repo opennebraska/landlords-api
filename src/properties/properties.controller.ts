@@ -20,7 +20,7 @@ export class PropertiesController {
         @Query(ValidationPipe) filterDto: GetPropertiesFilterDto,
         @GetUser() user: User
     ): Promise<Property[]> {
-        return this.propertiesService.getMeals(filterDto, user)
+        return this.propertiesService.getProperties(filterDto, user)
     }
 
     // @Get('/:id')

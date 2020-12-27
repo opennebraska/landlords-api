@@ -15,7 +15,7 @@ export class PropertiesService {
     ) {
     }
 
-    async getMeals(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
+    async getProperties(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
         return this.propertyRepository.getProperties(filterDto, user)
     }
 

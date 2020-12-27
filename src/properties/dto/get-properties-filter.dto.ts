@@ -9,4 +9,8 @@ export class GetPropertiesFilterDto {
     @IsOptional()
     @IsNotEmpty()
     search: string;
+
+    @IsOptional()
+    @IsNotEmpty()
+    limit: number;
 }
