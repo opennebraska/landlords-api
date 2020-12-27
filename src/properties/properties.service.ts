@@ -11,36 +11,30 @@ import {User} from "../auth/user.entity";
 export class PropertiesService {
     constructor(
         @InjectRepository(PropertiesRepository)
-        private mealRepository: PropertiesRepository
+        private propertyRepository: PropertiesRepository
     ) {
     }
 
     async getMeals(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
-        return this.mealRepository.getMeals(filterDto, user)
+        return this.propertyRepository.getProperties(filterDto, user)
     }
 
-    async getMealById(id: number, user: User): Promise<Property> {
-        const found = await this.mealRepository.findOne({where: {id, userId: user.id}})
+    async getPropertyById(id: number, user: User): Promise<Property> {
+        const found = await this.propertyRepository.findOne({where: {id, userId: user.id}})
         if (!found) {
             throw new NotFoundException(`Meal with id:${id} not found.`);
         }
         return found;
     }
 
-    async createMeal(createMealDto: CreatePropertyDto, user: User): Promise<Property> {
-        return this.mealRepository.createMeal(createMealDto, user)
+    async createProperty(createPropertyDto: CreatePropertyDto, user: User): Promise<Property> {
+        return this.propertyRepository.createProperty(createPropertyDto, user)
     }
 
-    async deleteMeal(id: number, user: User): Promise<void> {
-        const result = await this.mealRepository.delete({id, userId: user.id})
+    async deleteProperty(id: number, user: User): Promise<void> {
+        const result = await this.propertyRepository.delete({id, userId: user.id})
         if (result.affected === 0) {
             throw new NotFoundException(`Meal with ID "${id}" not found.`)
         }
-    }
-
-    async updateMealStatus(id: number, status: MealStatus, user: User): Promise<Property> {
-        const meal = await this.getMealById(id, user);
-        await meal.save()
-        return meal;
     }
 }

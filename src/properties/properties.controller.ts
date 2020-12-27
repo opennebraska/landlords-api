@@ -30,7 +30,7 @@ export class PropertiesController {
     // ): Promise<Meal> {
     //     return this.mealsService.getMealById(id, user);
     // }
-
+    //
     // @Post()
     // @UsePipes(ValidationPipe)
     // createMeal(
