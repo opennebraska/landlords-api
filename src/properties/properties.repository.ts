@@ -8,7 +8,7 @@ import {User} from "../auth/user.entity";
 export class PropertiesRepository extends Repository<Property> {
     async createMeal(createMealDto: CreatePropertyDto, user: User): Promise<Property> {
         const {digestion, feeling, hungerRatingBefore, mood, satietyRatingAfter, thinking, time, whatDidYouDrink, whatDidYouEat} = createMealDto;
-        const meal = new Property();
+        const property = new Property();
         // meal.digestion = digestion;
         // meal.feeling = feeling;
         // meal.hungerRatingBefore = hungerRatingBefore;
@@ -19,25 +19,17 @@ export class PropertiesRepository extends Repository<Property> {
         // meal.whatDidYouDrink = whatDidYouDrink;
         // meal.whatDidYouEat = whatDidYouEat;
         // meal.user = user;
-        await meal.save();
+        await property.save();
 
         // delete meal.user;
-        return meal;
+        return property;
     }
 
     async getMeals(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
         const {status, search} = filterDto;
-        const query = this.createQueryBuilder('meal');
+        const query = this.createQueryBuilder('properties');
 
-        query.where('meal.userId = :userId', {userId: user.id})
-
-        if (status) {
-            query.andWhere('meal.status = :status', {status})
-        }
-        if (search) {
-            query.andWhere('meal.title LIKE :search or meal.description LIKE :search', {search: `%${search}%`})
-        }
-        const meals = await query.getMany()
-        return meals.reverse();
+        const properties = await query.getMany()
+        return properties;
     }
 }

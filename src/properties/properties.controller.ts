@@ -12,7 +12,7 @@ import {User} from "../auth/user.entity";
 @Controller('properties')
 // @UseGuards(AuthGuard())
 export class PropertiesController {
-    constructor(private mealsService: PropertiesService) {
+    constructor(private propertiesService: PropertiesService) {
     }
 
     @Get()
@@ -20,7 +20,7 @@ export class PropertiesController {
         @Query(ValidationPipe) filterDto: GetPropertiesFilterDto,
         @GetUser() user: User
     ): Promise<Property[]> {
-        return this.mealsService.getMeals(filterDto, user)
+        return this.propertiesService.getMeals(filterDto, user)
     }
 
     // @Get('/:id')
