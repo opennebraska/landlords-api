@@ -15,6 +15,9 @@ export class PropertiesService {
     ) {
     }
 
+    async getProperty(pin: string): Promise<Property> {
+        return this.propertyRepository.getProperty(pin);
+    }
     async getProperties(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
         return this.propertyRepository.getProperties(filterDto, user)
     }

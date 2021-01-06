@@ -13,6 +13,12 @@ export class PropertiesRepository extends Repository<Property> {
         return property;
     }
 
+    async getProperty(pin: string): Promise<Property> {
+        const query = this.createQueryBuilder('property').where("property.pin = :pin", {pin})
+        const property = await query.getOne();
+        return property;
+    }
+
     async getProperties(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
         const {search, limit} = filterDto;
         const query = this.createQueryBuilder('property')
