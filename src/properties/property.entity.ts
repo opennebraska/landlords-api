@@ -120,6 +120,12 @@ export class Property extends BaseEntity {
     @Column({nullable: true})
     shapeArea:string;
 
+    @Column({nullable: true})
+    violationCount: string;
+
+    @Column({nullable: true})
+    openViolationCount: string;
+
     // @ManyToOne(type => User, user => user.meals, {eager: false})
     // user: User
 
