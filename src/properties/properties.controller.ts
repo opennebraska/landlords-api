@@ -8,18 +8,14 @@ import { User } from '../auth/user.entity';
 @Controller('properties')
 // @UseGuards(AuthGuard())
 export class PropertiesController {
-    constructor(private propertiesService: PropertiesService) {
-    }
+  constructor(private propertiesService: PropertiesService) {
+  }
 
-    @Get()
-    getProperties(
-        @Query(ValidationPipe) filterDto: GetPropertiesFilterDto,
-        @GetUser() user: User
-    ): Promise<Property[]> {
-        return this.propertiesService.getProperties(filterDto, user)
-    }
-
-
-
-
+  @Get()
+  getProperties(
+    @Query(ValidationPipe) filterDto: GetPropertiesFilterDto,
+    @GetUser() user: User,
+  ): Promise<Property[]> {
+    return this.propertiesService.getProperties(filterDto, user);
+  }
 }

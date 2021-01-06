@@ -14,10 +14,17 @@ export class PropertiesRepository extends Repository<Property> {
     }
 
     async getProperties(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
-        const {status, search} = filterDto;
-        const query = this.createQueryBuilder('property');
-        if (filterDto.limit) {
-            query.limit(filterDto.limit)
+        const {search, limit} = filterDto;
+        const query = this.createQueryBuilder('property')
+        if(search){
+            query.orWhere("LOWER(property.ownerName) LIKE LOWER(:search)", {search: `%${search}%`})
+            query.orWhere("LOWER(property.address2) LIKE LOWER(:search)", {search: `%${search}%`})
+            query.orWhere("LOWER(property.propertyZip) LIKE LOWER(:search)", {search: `%${search}%`})
+            query.orWhere("LOWER(property.propertyA) LIKE LOWER(:search)", {search: `%${search}%`})
+            query.orWhere("LOWER(property.propertyCity) LIKE LOWER(:search)", {search: `%${search}%`})
+        }
+        if (limit) {
+            query.limit(limit)
         }
         query.orderBy('property.id', "DESC")
 
