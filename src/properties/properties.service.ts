@@ -1,11 +1,11 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {CreatePropertyDto} from "./dto/create.property.dto";
-import {PropertiesRepository} from "./properties.repository";
-import {InjectRepository} from "@nestjs/typeorm";
-import {Property} from "./property.entity";
-import {MealStatus} from "./property-status.enum";
-import {GetPropertiesFilterDto} from "./dto/get-properties-filter.dto";
-import {User} from "../auth/user.entity";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreatePropertyDto } from './dto/create.property.dto';
+import { PropertiesRepository } from './properties.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Property } from './property.entity';
+import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
+import { User } from '../auth/user.entity';
+import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
 
 @Injectable()
 export class PropertiesService {
@@ -20,6 +20,10 @@ export class PropertiesService {
     }
     async getProperties(filterDto: GetPropertiesFilterDto, user: User): Promise<Property[]> {
         return this.propertyRepository.getProperties(filterDto, user)
+    }
+
+    async getLandlordProperties(filterDto: GetLandlordPropertiesFilterDto): Promise<Property[]> {
+        return this.propertyRepository.getLandlordProperties(filterDto);
     }
 
     async getPropertyById(id: number, user: User): Promise<Property> {

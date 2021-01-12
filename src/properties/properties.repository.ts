@@ -3,6 +3,7 @@ import {Property} from "./property.entity";
 import {CreatePropertyDto} from "./dto/create.property.dto";
 import {GetPropertiesFilterDto} from "./dto/get-properties-filter.dto";
 import {User} from "../auth/user.entity";
+import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
 
 @EntityRepository(Property)
 export class PropertiesRepository extends Repository<Property> {
@@ -35,6 +36,13 @@ export class PropertiesRepository extends Repository<Property> {
         query.orderBy('property.id', "DESC")
 
         const properties = await query.getMany()
+        return properties;
+    }
+
+    async getLandlordProperties(filterDto: GetLandlordPropertiesFilterDto): Promise<Property[]> {
+        const { landlord } = filterDto;
+        const query = this.createQueryBuilder('property').where("LOWER(property.ownerName) = LOWER(:ownerName)", {ownerName: landlord});
+        const properties = await query.getMany();
         return properties;
     }
 }
