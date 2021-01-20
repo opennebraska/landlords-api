@@ -9,6 +9,9 @@ export class Shelter extends BaseEntity {
     time: string;
 
     @Column({nullable: true})
+    name: string;
+
+    @Column({nullable: true})
     location: string;
 
     @Column({nullable: true})
