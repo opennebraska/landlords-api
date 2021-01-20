@@ -18,9 +18,6 @@ export class Shelter extends BaseEntity {
     phone: string;
 
     @Column({nullable: true})
-    rating: string;
-
-    @Column({nullable: true})
     availableCapacity: number;
 
     @Column({nullable: true})
