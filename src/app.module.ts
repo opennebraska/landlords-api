@@ -17,6 +17,7 @@ import { join } from 'path';
             playground: true,
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             sortSchema: true,
+            introspection: true
         }),
         TypeOrmModule.forRoot(typeOrmConfig),
         AuthModule
