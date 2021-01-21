@@ -4,6 +4,7 @@ import { SheltersService } from './shelters.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {SheltersRepository} from "./shelters.repository";
 import {AuthModule} from "../auth/auth.module";
+import {ShelterResolver} from "./shelters.resolver";
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import {AuthModule} from "../auth/auth.module";
       TypeOrmModule.forFeature([SheltersRepository])
   ],
   controllers: [SheltersController],
-  providers: [SheltersService]
+  providers: [SheltersService, ShelterResolver]
 })
 export class SheltersModule {}

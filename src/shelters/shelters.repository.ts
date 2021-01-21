@@ -5,11 +5,15 @@ import {User} from "../auth/user.entity";
 
 @EntityRepository(Shelter)
 export class SheltersRepository extends Repository<Shelter> {
-    async getShelters(filterDto: GetSheltersFilterDto, user: User): Promise<Shelter[]> {
+    async getShelters(filterDto: GetSheltersFilterDto): Promise<Shelter[]> {
         const {status, search} = filterDto;
         const query = this.createQueryBuilder('shelter');
         if (filterDto.limit) {
             query.limit(filterDto.limit)
+        }
+        if(filterDto.search){
+            const lowerSearch = search.toLowerCase()
+            query.andWhere('LOWER(shelter.name) LIKE :search or LOWER(shelter.location) LIKE :search', {search: `%${lowerSearch}%`})
         }
 
         const shelters = await query.getMany()

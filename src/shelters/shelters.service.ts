@@ -13,8 +13,8 @@ export class SheltersService {
     ) {
     }
 
-    async getShelters(filterDto: GetSheltersFilterDto, user: User): Promise<Shelter[]> {
-        return this.sheltersRepository.getShelters(filterDto, user)
+    async getShelters(filterDto: GetSheltersFilterDto): Promise<Shelter[]> {
+        return this.sheltersRepository.getShelters(filterDto)
     }
 
 }
