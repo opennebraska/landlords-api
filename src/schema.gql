@@ -13,18 +13,19 @@ type Resident {
 
 type Shelter {
   allowsChildren: Boolean
+  allowsFamilyFemale: Boolean
   allowsFamilyMale: Boolean
-  allowsFemale: Boolean
   allowsIntoxication: Boolean
   allowsNarcotics: Boolean
+  allowsSingleFemale: Boolean
   allowsSingleMale: Boolean
   availableCapacity: Float
+  createdAt: String!
   id: Float!
   location: String
   name: String
   phone: String
   residents(namePartial: String): [Resident!]!
-  time: String!
 
   """Total amount of residents the shelter can accept"""
   totalCapacity: Float
