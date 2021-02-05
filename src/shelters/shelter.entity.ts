@@ -8,9 +8,9 @@ export class Shelter extends BaseEntity {
     @Field()
     id: number;
 
-    @Column("timestamp")
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     @Field()
-    time: string;
+    createdAt: string;
 
     @Column({nullable: true})
     @Field({ nullable: true })
@@ -46,11 +46,15 @@ export class Shelter extends BaseEntity {
 
     @Column({default: false})
     @Field({ nullable: true })
+    allowsSingleFemale: boolean;
+
+    @Column({default: false})
+    @Field({ nullable: true })
     allowsFamilyMale: boolean;
 
     @Column({default: false})
     @Field({ nullable: true })
-    allowsFemale: boolean;
+    allowsFamilyFemale: boolean;
 
     @Column({default: false})
     @Field({ nullable: true })
