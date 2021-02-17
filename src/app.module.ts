@@ -18,7 +18,10 @@ import { join } from 'path';
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             sortSchema: true,
             introspection: true,
-            cors: true
+            cors: {
+                origin: '*',
+                credentials: true
+            }
         }),
         TypeOrmModule.forRoot(typeOrmConfig),
         AuthModule
