@@ -29,4 +29,5 @@ type Shelter {
 
   """Total amount of residents the shelter can accept"""
   totalCapacity: Float
+  website: String
 }

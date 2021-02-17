@@ -26,6 +26,10 @@ export class Shelter extends BaseEntity {
 
     @Column({nullable: true})
     @Field({ nullable: true })
+    website: string;
+
+    @Column({nullable: true})
+    @Field({ nullable: true })
     availableCapacity: number;
 
     @Column({nullable: true})
