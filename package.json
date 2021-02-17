@@ -1,7 +1,7 @@
 {
   "name": "omaha-landlord-server",
   "version": "0.0.1",
-  "description": "Server portion of intuitive eating application.",
+  "description": "Server portion of the housing API application.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
