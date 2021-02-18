@@ -7,10 +7,8 @@ import { User } from '../auth/user.entity';
 import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
 
 @Controller('properties')
-// @UseGuards(AuthGuard())
 export class PropertiesController {
-  constructor(private propertiesService: PropertiesService) {
-  }
+  constructor(private propertiesService: PropertiesService) {}
 
   @Get('/:pin')
   getProperty(@Param('pin') pin: string): Promise<Property> {
@@ -18,7 +16,9 @@ export class PropertiesController {
   }
 
   @Get('/landlord/:landlord')
-  getLandlordProperties(@Param(ValidationPipe) filterDto: GetLandlordPropertiesFilterDto): Promise<Property[]> {
+  getLandlordProperties(
+    @Param(ValidationPipe) filterDto: GetLandlordPropertiesFilterDto,
+  ): Promise<Property[]> {
     return this.propertiesService.getLandlordProperties(filterDto);
   }
 

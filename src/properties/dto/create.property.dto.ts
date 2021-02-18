@@ -1,29 +1,89 @@
-import {IsNotEmpty} from 'class-validator'
 export class CreatePropertyDto {
-    @IsNotEmpty()
-    time: string;
+  id: number;
 
-    @IsNotEmpty()
-    hungerRatingBefore: number;
+  time: string;
 
-    @IsNotEmpty()
-    whatDidYouEat: string;
+  objectId: number;
 
-    @IsNotEmpty()
-    whatDidYouDrink: string;
+  pin: string;
 
-    @IsNotEmpty()
-    satietyRatingAfter: number;
+  ownerName: string;
 
-    @IsNotEmpty()
-    thinking: string;
+  address1: string;
 
-    @IsNotEmpty()
-    feeling: string;
+  address2: string;
 
-    @IsNotEmpty()
-    digestion: string;
+  ownerCity: string;
 
-    @IsNotEmpty()
-    mood: string;
+  ownerState: string;
+
+  ownerZip: string;
+
+  propertyA: string;
+
+  house: string;
+
+  streetDirection: string;
+
+  streetName: string;
+
+  streetType: string;
+
+  apartment: string;
+
+  propertyCity: string;
+
+  propertyZip: string;
+
+  secTwnRn: string;
+
+  additionN: string;
+
+  block: string;
+
+  lot: string;
+
+  legal1: string;
+
+  legal2: string;
+
+  legal3: string;
+
+  legal4: string;
+
+  dcaaccType: string;
+
+  class: string;
+
+  quality: string;
+
+  condition: string;
+
+  sqFeet: string;
+
+  assessor: string;
+
+  treasurer: string;
+
+  xCoord: string;
+
+  yCoord: string;
+
+  addressLA: string;
+
+  taxDist: string;
+
+  shapeLength: string;
+
+  shapeArea: string;
+
+  violationCount: string;
+
+  openViolationCount: string;
+
+  userId: number;
+
+  constructor(input) {
+    Object.assign(this, input);
+  }
 }
