@@ -6,7 +6,7 @@ import { PropertiesService } from '../properties/properties.service';
 export class ScrapePropertiesTask {
   constructor(private readonly propertyService: PropertiesService) {}
 
-  @Cron('* * * * 4')
+  @Cron(CronExpression.EVERY_WEEK)
   async handleCron() {
     await this.propertyService.replacePropertyData();
   }
