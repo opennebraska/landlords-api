@@ -103,12 +103,17 @@ export class PropertiesService {
       'https://opendata.arcgis.com/datasets/9e021941e38b42a2971ef68f4a14cfa7_38.csv?outSR=%7B%22latestWkid%22%3A26852%2C%22wkid%22%3A102704%7D';
     this.logger.log('Starting replacePropertyData');
     const { data: csvString } = await axios.get(CSV_URL);
+    this.logger.log(`Got the csv string`);
     const propertiesJson = await csv({
       output: 'json',
     }).fromString(csvString);
+    this.logger.log(
+      `Properties retrieved and converted to json (${propertiesJson.length})`,
+    );
     const properties = propertiesJson.map(
       PropertiesService.convertPropertyJsonToEntity,
     );
+    this.logger.log(`Properties mapped from JSON, ${properties.length}`);
     const batchSize = 500;
     const propertiesBatches = chunk(properties, batchSize);
     const startTime = new Date();
