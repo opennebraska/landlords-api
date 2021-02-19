@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Query, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  ValidationPipe,
+} from '@nestjs/common';
 import { PropertiesService } from './properties.service';
 import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
 import { Property } from './property.entity';
@@ -28,5 +36,13 @@ export class PropertiesController {
     @GetUser() user: User,
   ): Promise<Property[]> {
     return this.propertiesService.getProperties(filterDto, user);
+  }
+
+  @Post('/refresh')
+  refreshProperties(@Body('code') code: string): Promise<void> {
+    const refreshKey = process.env.REFRESH_KEY || 'magic_key';
+    if (refreshKey === code) {
+      return this.propertiesService.replacePropertyData();
+    }
   }
 }
