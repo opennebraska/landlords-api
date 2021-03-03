@@ -7,8 +7,6 @@ import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
 import { User } from '../auth/user.entity';
 import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
 import * as csv from 'csvtojson';
-import { ScrapePropertiesTask } from '../scraper/scrape-properties';
-import * as chunk from 'lodash.chunk';
 import axios from 'axios';
 
 @Injectable()
@@ -19,7 +17,9 @@ export class PropertiesService {
     private propertyRepository: PropertiesRepository,
   ) {}
 
-  static convertPropertyJsonToEntity(property): CreatePropertyDto {
+  static convertPropertyJsonToEntity(
+    property: Record<string, unknown>,
+  ): CreatePropertyDto {
     return new CreatePropertyDto({
       id: null,
       time: new Date(),
@@ -98,33 +98,34 @@ export class PropertiesService {
     return this.propertyRepository.createProperty(createPropertyDto, user);
   }
 
-  async replacePropertyData() {
+  async replacePropertyData(): void {
     const CSV_URL =
       'https://opendata.arcgis.com/datasets/9e021941e38b42a2971ef68f4a14cfa7_38.csv?outSR=%7B%22latestWkid%22%3A26852%2C%22wkid%22%3A102704%7D';
     this.logger.log('Starting replacePropertyData');
     const { data: csvString } = await axios.get(CSV_URL);
-    this.logger.log(`Got the csv string`);
+    this.logger.log(`Got the csv string | ${this.getHeapUsed()}`);
     const propertiesJson = await csv({
       output: 'json',
     }).fromString(csvString);
+    const numberOfProperties = propertiesJson.length;
     this.logger.log(
-      `Properties retrieved and converted to json (${propertiesJson.length})`,
+      `Properties retrieved and converted to json (${numberOfProperties}), heap MB: ${this.getHeapUsed()}`,
     );
-    const properties = propertiesJson.map(
-      PropertiesService.convertPropertyJsonToEntity,
-    );
-    this.logger.log(`Properties mapped from JSON, ${properties.length}`);
     const batchSize = 500;
-    const propertiesBatches = chunk(properties, batchSize);
+    for (let i = 0; i < numberOfProperties; i += batchSize) {
+      const batch = propertiesJson.slice(i, i + batchSize);
+      await this.createBatchProperties(
+        batch.map(PropertiesService.convertPropertyJsonToEntity),
+      );
+    }
     const startTime = new Date();
     this.logger.log(
-      `${startTime}: About to insert ${properties.length} properties in ${propertiesBatches.length} batches.`,
+      `${startTime}: Finished inserting ${numberOfProperties} properties. heap MB: ${this.getHeapUsed()}`,
     );
-    for (const batch of propertiesBatches) {
-      await this.createBatchProperties(batch);
-    }
     const endTime = new Date();
-    this.logger.log(`${endTime}: We did it! Check the database.`);
+    this.logger.log(
+      `${endTime}: We did it! Check the database. heap MB: ${this.getHeapUsed()}`,
+    );
     this.logger.log(
       `With batch size ${batchSize}, this took ${(endTime.getTime() -
         startTime.getTime()) /
@@ -144,5 +145,9 @@ export class PropertiesService {
     if (result.affected === 0) {
       throw new NotFoundException(`Meal with ID "${id}" not found.`);
     }
+  }
+
+  getHeapUsed(): string {
+    return (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
   }
 }
