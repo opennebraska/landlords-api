@@ -98,7 +98,7 @@ export class PropertiesService {
     return this.propertyRepository.createProperty(createPropertyDto, user);
   }
 
-  async replacePropertyData(): void {
+  async replacePropertyData(): Promise<void> {
     const CSV_URL =
       'https://opendata.arcgis.com/datasets/9e021941e38b42a2971ef68f4a14cfa7_38.csv?outSR=%7B%22latestWkid%22%3A26852%2C%22wkid%22%3A102704%7D';
     this.logger.log('Starting replacePropertyData');
