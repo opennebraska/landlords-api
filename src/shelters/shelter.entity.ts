@@ -22,6 +22,14 @@ export class Shelter extends BaseEntity {
 
     @Column({nullable: true})
     @Field({ nullable: true })
+    latitude: string;
+
+    @Column({nullable: true})
+    @Field({ nullable: true })
+    longitude: string;
+
+    @Column({nullable: true})
+    @Field({ nullable: true })
     phone: string;
 
     @Column({nullable: true})
