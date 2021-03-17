@@ -8,6 +8,6 @@ export class ScrapePropertiesTask {
 
   @Cron(CronExpression.EVERY_WEEK)
   async handleCron() {
-    await this.propertyService.replacePropertyData();
+    await this.propertyService.replacePropertiesViaApi();
   }
 }

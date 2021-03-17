@@ -8,28 +8,28 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ScrapePropertiesModule } from './scraper/scrape-properties.module';
-
+import { ExternalModule } from './external/external.module';
 
 @Module({
   imports: [
     PropertiesModule,
     SheltersModule,
+    ExternalModule,
     GraphQLModule.forRoot({
       debug: false,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       introspection: true,
-    cors: {
-                origin: '*',
-                credentials: true
-            }
-        }),
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
+    }),
     ScheduleModule.forRoot(),
     ScrapePropertiesModule,
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
   ],
 })
-export class AppModule {
-}
+export class AppModule {}

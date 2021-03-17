@@ -1,5 +1,5 @@
-import {MealStatus} from "../property-status.enum";
+import { MealStatus } from '../property-status.enum';
 
 export class UpdatePropertyDto {
-    status: MealStatus
+  status: MealStatus;
 }

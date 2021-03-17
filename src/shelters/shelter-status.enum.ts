@@ -1,4 +1,4 @@
 export enum ShelterStatus {
-    FULL = 'Full',
-    SPACE_AVAILABLE = 'Space Available',
+  FULL = 'Full',
+  SPACE_AVAILABLE = 'Space Available',
 }

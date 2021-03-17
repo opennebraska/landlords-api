@@ -13,6 +13,7 @@ import { Property } from './property.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
 import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
+import { CreatePropertyDto } from './dto/create.property.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -41,8 +42,9 @@ export class PropertiesController {
   @Post('/refresh')
   refreshProperties(@Body('code') code: string): Promise<void> {
     const refreshKey = process.env.REFRESH_KEY || 'magic_key';
+    console.log(`code = ${code}`);
     if (refreshKey === code) {
-      return this.propertiesService.replacePropertyData();
+      return this.propertiesService.replacePropertiesViaApi();
     }
   }
 }

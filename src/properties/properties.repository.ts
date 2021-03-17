@@ -4,16 +4,16 @@ import { CreatePropertyDto } from './dto/create.property.dto';
 import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
 import { User } from '../auth/user.entity';
 import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const chunk = require('lodash.chunk');
 
 @EntityRepository(Property)
 export class PropertiesRepository extends Repository<Property> {
   async createProperty(
-    createMealDto: CreatePropertyDto,
-    user: User,
+    createPropertyDto: CreatePropertyDto,
   ): Promise<Property> {
-    const property = new Property();
+    const property = new Property(createPropertyDto);
     await property.save();
-
     return property;
   }
 
@@ -21,11 +21,16 @@ export class PropertiesRepository extends Repository<Property> {
     await this.createQueryBuilder('property')
       .delete()
       .execute();
-    return this.createQueryBuilder('property')
-      .insert()
-      .into('property')
-      .values(properties)
-      .execute();
+    console.log(`properties before insert ${properties.length}`);
+    console.log(`properties before insert ${properties[0]}`);
+    const batches = chunk(properties, 2000);
+    batches.forEach(propertyBatch => {
+      this.createQueryBuilder()
+        .insert()
+        .into(Property)
+        .values(propertyBatch)
+        .execute();
+    });
   }
 
   async getProperty(pin: string): Promise<Property> {

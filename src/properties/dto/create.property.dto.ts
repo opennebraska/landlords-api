@@ -82,8 +82,4 @@ export class CreatePropertyDto {
   openViolationCount: string;
 
   userId: number;
-
-  constructor(input) {
-    Object.assign(this, input);
-  }
 }

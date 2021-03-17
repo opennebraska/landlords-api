@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CreatePropertyDto } from './dto/create.property.dto';
 
 @Entity()
 export class Property extends BaseEntity {
@@ -130,4 +131,9 @@ export class Property extends BaseEntity {
 
   @Column({ nullable: true })
   userId: number;
+
+  constructor(input: CreatePropertyDto) {
+    super();
+    Object.assign(this, input);
+  }
 }

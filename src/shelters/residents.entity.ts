@@ -1,10 +1,10 @@
-import {Field, ObjectType} from "@nestjs/graphql";
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Resident {
-    @Field()
-    name: string;
+  @Field()
+  name: string;
 
-    @Field()
-    sex: string;
+  @Field()
+  sex: string;
 }

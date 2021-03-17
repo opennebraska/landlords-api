@@ -22,9 +22,7 @@ type Shelter {
   availableCapacity: Float
   createdAt: String!
   id: Float!
-  latitude: String
   location: String
-  longitude: String
   name: String
   phone: String
   residents(namePartial: String): [Resident!]!
