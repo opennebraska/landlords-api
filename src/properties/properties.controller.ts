@@ -24,11 +24,11 @@ export class PropertiesController {
     return this.propertiesService.getProperty(pin);
   }
 
-  @Get('/landlord/:landlord')
+  @Get()
   getLandlordProperties(
-    @Param(ValidationPipe) filterDto: GetLandlordPropertiesFilterDto,
+    @Query('landlord') landlord: string,
   ): Promise<Property[]> {
-    return this.propertiesService.getLandlordProperties(filterDto);
+    return this.propertiesService.getLandlordProperties(landlord);
   }
 
   @Get()

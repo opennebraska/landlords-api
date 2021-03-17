@@ -74,14 +74,11 @@ export class PropertiesRepository extends Repository<Property> {
     return properties;
   }
 
-  async getLandlordProperties(
-    filterDto: GetLandlordPropertiesFilterDto,
-  ): Promise<Property[]> {
-    const { landlord } = filterDto;
+  async getLandlordProperties(landlord: string): Promise<Property[]> {
     const query = this.createQueryBuilder('property').where(
-      'LOWER(property.ownerName) = LOWER(:ownerName)',
+      'LOWER(property.ownerName) LIKE LOWER(:ownerName)',
       {
-        ownerName: landlord,
+        ownerName: `%${landlord}%`,
       },
     );
     const properties = await query.getMany();

@@ -29,10 +29,8 @@ export class PropertiesService {
     return this.propertyRepository.getProperties(filterDto, user);
   }
 
-  async getLandlordProperties(
-    filterDto: GetLandlordPropertiesFilterDto,
-  ): Promise<Property[]> {
-    return this.propertyRepository.getLandlordProperties(filterDto);
+  async getLandlordProperties(landlord: string): Promise<Property[]> {
+    return this.propertyRepository.getLandlordProperties(landlord);
   }
 
   async getPropertyById(id: number, user: User): Promise<Property> {
