@@ -44,8 +44,7 @@ class DcgisProperty {
 export class DcgisWrapper {
   private static FIELDS =
     'OBJECTID,PIN,OWNER_NAME,ADDRESS1,ADDRESS2,OWNER_CITY,OWNER_STAT,OWNER_ZIP,PROPERTY_A,HOUSE,APARTMENT,PROP_CITY,PROP_ZIP,BLOCK,LOT,QUALITY,CONDITION,ADDRESS_LA,X_COORD,Y_COORD';
-  private static WHERE =
-    "UPPER(CONDITION)+IN+('POOR','LOW','WORN+OUT')+OR+(UPPER(OWNER_CITY)<>'OMAHA'+AND+UPPER(OWNER_STAT)='NE'+AND+UPPER(PROP_CITY)='OMAHA')+OR+UPPER(OWNER_STAT)<>'NE'";
+  private static WHERE = '1=1';
   private static PAGE_SIZE_DEFAULT = 1000;
 
   static convertPropertyJsonToEntity(
@@ -149,14 +148,6 @@ export class DcgisWrapper {
       );
       countOffset += pageParcels.length;
     }
-    console.log('Last few parcels');
-    console.log(`${parcels[0]}`);
-    console.log(
-      `Undefined parcels: ${
-        parcels.filter(parcel => parcel === undefined).length
-      }`,
-    );
-    console.log(`${parcels.slice(parcels.length - 100, parcels.length)}`);
     return parcels;
   }
 }

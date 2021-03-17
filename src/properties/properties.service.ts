@@ -53,12 +53,9 @@ export class PropertiesService {
 
   async replacePropertiesViaApi(): Promise<void> {
     const properties = await this.dcgisWrapper.retrieveProperties();
-    console.log(`First property: ${JSON.stringify(properties[0])}`);
     try {
       await this.createBatchProperties(properties);
     } catch (error) {
-      console.log('We caught the error.');
-      console.log(`${properties[properties.length - 1]}`);
       throw error;
     }
   }

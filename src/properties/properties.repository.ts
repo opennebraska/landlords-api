@@ -21,8 +21,6 @@ export class PropertiesRepository extends Repository<Property> {
     await this.createQueryBuilder('property')
       .delete()
       .execute();
-    console.log(`properties before insert ${properties.length}`);
-    console.log(`properties before insert ${properties[0]}`);
     const batches = chunk(properties, 2000);
     batches.forEach(propertyBatch => {
       this.createQueryBuilder()
