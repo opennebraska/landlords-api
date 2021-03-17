@@ -52,12 +52,7 @@ export class PropertiesService {
   }
 
   async replacePropertiesViaApi(): Promise<void> {
-    const properties = await this.dcgisWrapper.retrieveProperties();
-    try {
-      await this.createBatchProperties(properties);
-    } catch (error) {
-      throw error;
-    }
+    await this.dcgisWrapper.retrieveProperties();
   }
 
   async createBatchProperties(properties: CreatePropertyDto[]): Promise<void> {

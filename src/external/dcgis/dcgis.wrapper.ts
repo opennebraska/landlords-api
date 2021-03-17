@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Injectable } from '@nestjs/common';
 import { CreatePropertyDto } from '../../properties/dto/create.property.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PropertiesRepository } from '../../properties/properties.repository';
 
 class DcgisProperty {
   OBJECTID: number;
@@ -42,6 +44,10 @@ class DcgisProperty {
 
 @Injectable()
 export class DcgisWrapper {
+  constructor(
+    @InjectRepository(PropertiesRepository)
+    private propertyRepository: PropertiesRepository,
+  ) {}
   private static FIELDS =
     'OBJECTID,PIN,OWNER_NAME,ADDRESS1,ADDRESS2,OWNER_CITY,OWNER_STAT,OWNER_ZIP,PROPERTY_A,HOUSE,APARTMENT,PROP_CITY,PROP_ZIP,BLOCK,LOT,QUALITY,CONDITION,ADDRESS_LA,X_COORD,Y_COORD';
   private static WHERE = '1=1';
@@ -131,14 +137,14 @@ export class DcgisWrapper {
       console.warn('Page size should be greater than 0.');
       return [];
     }
-
+    await this.propertyRepository.deleteAllProperties();
     const parcels = [];
     let countOffset = 0;
     while (countOffset < count) {
       console.log(countOffset);
       const pageParcels = await this.getParcels(countOffset, pageSize);
-      parcels.push(
-        ...pageParcels.map(pageParcel => {
+      await this.propertyRepository.createBatchProperties(
+        pageParcels.map(pageParcel => {
           if (pageParcel.attributes) {
             return DcgisWrapper.convertPropertyJsonToEntity(
               pageParcel.attributes,

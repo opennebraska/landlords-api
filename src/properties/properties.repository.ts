@@ -18,9 +18,6 @@ export class PropertiesRepository extends Repository<Property> {
   }
 
   async createBatchProperties(properties: CreatePropertyDto[]) {
-    await this.createQueryBuilder('property')
-      .delete()
-      .execute();
     const batches = chunk(properties, 2000);
     batches.forEach(propertyBatch => {
       this.createQueryBuilder()
@@ -29,6 +26,12 @@ export class PropertiesRepository extends Repository<Property> {
         .values(propertyBatch)
         .execute();
     });
+  }
+
+  async deleteAllProperties() {
+    await this.createQueryBuilder('property')
+      .delete()
+      .execute();
   }
 
   async getProperty(pin: string): Promise<Property> {
