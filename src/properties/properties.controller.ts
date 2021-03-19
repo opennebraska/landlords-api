@@ -1,19 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
-import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
 import { Property } from './property.entity';
-import { GetUser } from '../auth/get-user.decorator';
-import { User } from '../auth/user.entity';
-import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
-import { CreatePropertyDto } from './dto/create.property.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -25,18 +12,11 @@ export class PropertiesController {
   }
 
   @Get()
-  getLandlordProperties(
-    @Query('landlord') landlord: string,
-  ): Promise<Property[]> {
-    return this.propertiesService.getLandlordProperties(landlord);
-  }
-
-  @Get()
   getProperties(
-    @Query(ValidationPipe) filterDto: GetPropertiesFilterDto,
-    @GetUser() user: User,
+    @Query('search') search: string,
+    @Query('limit') limit = 25,
   ): Promise<Property[]> {
-    return this.propertiesService.getProperties(filterDto, user);
+    return this.propertiesService.getProperties(search, limit);
   }
 
   @Post('/refresh')

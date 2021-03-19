@@ -42,11 +42,7 @@ export class PropertiesRepository extends Repository<Property> {
     return property;
   }
 
-  async getProperties(
-    filterDto: GetPropertiesFilterDto,
-    user: User,
-  ): Promise<Property[]> {
-    const { search, limit } = filterDto;
+  async getProperties(search: string, limit: number): Promise<Property[]> {
     const query = this.createQueryBuilder('property');
     if (search) {
       query.orWhere('LOWER(property.ownerName) LIKE LOWER(:search)', {

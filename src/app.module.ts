@@ -9,9 +9,11 @@ import { join } from 'path';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ScrapePropertiesModule } from './scraper/scrape-properties.module';
 import { ExternalModule } from './external/external.module';
+import { LandlordsModule } from './landlords/landlords.module';
 
 @Module({
   imports: [
+    LandlordsModule,
     PropertiesModule,
     SheltersModule,
     ExternalModule,

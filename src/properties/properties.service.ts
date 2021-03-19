@@ -3,11 +3,7 @@ import { CreatePropertyDto } from './dto/create.property.dto';
 import { PropertiesRepository } from './properties.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Property } from './property.entity';
-import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
 import { User } from '../auth/user.entity';
-import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
-import * as csv from 'csvtojson';
-import axios from 'axios';
 import { DcgisWrapper } from '../external/dcgis/dcgis.wrapper';
 
 @Injectable()
@@ -22,11 +18,8 @@ export class PropertiesService {
   async getProperty(pin: string): Promise<Property> {
     return this.propertyRepository.getProperty(pin);
   }
-  async getProperties(
-    filterDto: GetPropertiesFilterDto,
-    user: User,
-  ): Promise<Property[]> {
-    return this.propertyRepository.getProperties(filterDto, user);
+  async getProperties(search: string, limit: number): Promise<Property[]> {
+    return this.propertyRepository.getProperties(search, limit);
   }
 
   async getLandlordProperties(landlord: string): Promise<Property[]> {
