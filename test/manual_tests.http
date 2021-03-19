@@ -4,4 +4,4 @@ GET localhost:3001/landlords?search=COrdova
 
 ###
 
-GET localhost:3001/properties?search=COrdova
+GET localhost:3001/properties?search=cordova%20lisa

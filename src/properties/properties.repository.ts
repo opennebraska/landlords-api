@@ -74,7 +74,7 @@ export class PropertiesRepository extends Repository<Property> {
     const query = this.createQueryBuilder('property').where(
       'LOWER(property.ownerName) LIKE LOWER(:ownerName)',
       {
-        ownerName: `%${landlord}%`,
+        ownerName: `${landlord}`,
       },
     );
     const properties = await query.getMany();
