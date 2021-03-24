@@ -14,7 +14,7 @@ export class PropertiesController {
   @Get()
   getProperties(
     @Query('search') search: string,
-    @Query('limit') limit = 25,
+    @Query('limit') limit = 2000,
   ): Promise<Property[]> {
     return this.propertiesService.getProperties(search, limit);
   }

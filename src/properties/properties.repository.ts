@@ -1,9 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Property } from './property.entity';
 import { CreatePropertyDto } from './dto/create.property.dto';
-import { GetPropertiesFilterDto } from './dto/get-properties-filter.dto';
-import { User } from '../auth/user.entity';
-import { GetLandlordPropertiesFilterDto } from './dto/get-landlord-properties-filter.dto';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const chunk = require('lodash.chunk');
 
