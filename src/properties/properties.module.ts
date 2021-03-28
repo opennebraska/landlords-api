@@ -4,13 +4,15 @@ import { PropertiesService } from './properties.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PropertiesRepository } from './properties.repository';
 import { AuthModule } from '../auth/auth.module';
-import { ExternalModule } from '../external/external.module';
+import { DcgisModule } from '../external/dcgis/dcgis.module';
+import { ZillowModule } from '../external/zillow/zillow.module';
 
 @Module({
   imports: [
     AuthModule,
     TypeOrmModule.forFeature([PropertiesRepository]),
-    ExternalModule,
+    DcgisModule,
+    ZillowModule,
   ],
   controllers: [PropertiesController],
   providers: [PropertiesService],

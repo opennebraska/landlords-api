@@ -1,6 +1,16 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { PropertiesService } from './properties.service';
 import { Property } from './property.entity';
+import { PropertyImageResponse } from './dto/property-image.response';
 
 @Controller('properties')
 export class PropertiesController {
@@ -26,5 +36,21 @@ export class PropertiesController {
     if (refreshKey === code) {
       return this.propertiesService.replacePropertiesViaApi();
     }
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/:pin/image')
+  async getPropertyImage(
+    @Param('pin') pin: string,
+  ): Promise<PropertyImageResponse> {
+    const property = await this.propertiesService.getProperty(pin);
+    const {
+      addressLA: address,
+      propertyCity: city,
+      propertyZip: zip,
+    } = property;
+    return new PropertyImageResponse(
+      await this.propertiesService.getPropertyImage(address, city, zip),
+    );
   }
 }

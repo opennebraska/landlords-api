@@ -5,3 +5,7 @@ GET localhost:3001/landlords?search=COrdova
 ###
 
 GET localhost:3001/properties?search=cordova%20lisa
+
+###
+
+GET localhost:3001/properties/2126820000/image

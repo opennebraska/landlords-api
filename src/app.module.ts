@@ -8,15 +8,17 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ScrapePropertiesModule } from './scraper/scrape-properties.module';
-import { ExternalModule } from './external/external.module';
 import { LandlordsModule } from './landlords/landlords.module';
+import { DcgisModule } from './external/dcgis/dcgis.module';
+import { ZillowModule } from './external/zillow/zillow.module';
 
 @Module({
   imports: [
     LandlordsModule,
     PropertiesModule,
     SheltersModule,
-    ExternalModule,
+    DcgisModule,
+    ZillowModule,
     GraphQLModule.forRoot({
       debug: false,
       playground: true,

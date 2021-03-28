@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Property } from './property.entity';
 import { User } from '../auth/user.entity';
 import { DcgisWrapper } from '../external/dcgis/dcgis.wrapper';
+import { ZillowWrapper } from '../external/zillow/zillow.wrapper';
 
 @Injectable()
 export class PropertiesService {
@@ -13,6 +14,7 @@ export class PropertiesService {
     @InjectRepository(PropertiesRepository)
     private propertyRepository: PropertiesRepository,
     private dcgisWrapper: DcgisWrapper,
+    private zillowWrapper: ZillowWrapper,
   ) {}
 
   async getProperty(pin: string): Promise<Property> {
@@ -58,6 +60,14 @@ export class PropertiesService {
     if (result.affected === 0) {
       throw new NotFoundException(`Meal with ID "${id}" not found.`);
     }
+  }
+
+  async getPropertyImage(
+    address: string,
+    city: string,
+    zip: string,
+  ): Promise<string> {
+    return this.zillowWrapper.getPropertyImageUrl(address, city, zip);
   }
 
   getHeapUsed(): string {
