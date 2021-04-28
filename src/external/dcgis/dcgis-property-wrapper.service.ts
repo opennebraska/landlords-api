@@ -43,7 +43,7 @@ class DcgisProperty {
 }
 
 @Injectable()
-export class DcgisWrapper {
+export class DcgisPropertyWrapper {
   constructor(
     @InjectRepository(PropertiesRepository)
     private propertyRepository: PropertiesRepository,
@@ -105,11 +105,14 @@ export class DcgisWrapper {
     const parcelsCount = await this.getParcelsCount();
     console.log(`Requesting ${parcelsCount} parcels.`);
 
-    return this.makeDataRequests(parcelsCount, DcgisWrapper.PAGE_SIZE_DEFAULT);
+    return this.makeDataRequests(
+      parcelsCount,
+      DcgisPropertyWrapper.PAGE_SIZE_DEFAULT,
+    );
   }
 
   private async getParcelsCount(): Promise<number> {
-    const url = `https://gis.dogis.org/arcgis/rest/services/OpenData_Layers/MapServer/38/query?where=${DcgisWrapper.WHERE}&returnCountOnly=true&f=json`;
+    const url = `https://gis.dogis.org/arcgis/rest/services/OpenData_Layers/MapServer/38/query?where=${DcgisPropertyWrapper.WHERE}&returnCountOnly=true&f=json`;
     console.log(`Fetching data count from ${url}`);
     const parcelsCountResponse = await axios.get(url);
     const count = Number.parseInt(parcelsCountResponse?.data?.count);
@@ -120,7 +123,7 @@ export class DcgisWrapper {
   }
 
   private getParcelsUrl = (resultOffset, resultRecordCount) =>
-    `https://gis.dogis.org/arcgis/rest/services/OpenData_Layers/MapServer/38/query?where=${DcgisWrapper.WHERE}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=${DcgisWrapper.FIELDS}&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=${resultOffset}&resultRecordCount=${resultRecordCount}&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=json`;
+    `https://gis.dogis.org/arcgis/rest/services/OpenData_Layers/MapServer/38/query?where=${DcgisPropertyWrapper.WHERE}&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=${DcgisPropertyWrapper.FIELDS}&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=${resultOffset}&resultRecordCount=${resultRecordCount}&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=json`;
 
   private async getParcels(page, pageSize) {
     const pageUrl = this.getParcelsUrl(page, pageSize);
@@ -146,7 +149,7 @@ export class DcgisWrapper {
       await this.propertyRepository.createBatchProperties(
         pageParcels.map(pageParcel => {
           if (pageParcel.attributes) {
-            return DcgisWrapper.convertPropertyJsonToEntity(
+            return DcgisPropertyWrapper.convertPropertyJsonToEntity(
               pageParcel.attributes,
             );
           }

@@ -4,7 +4,7 @@ import { PropertiesRepository } from './properties.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Property } from './property.entity';
 import { User } from '../auth/user.entity';
-import { DcgisWrapper } from '../external/dcgis/dcgis.wrapper';
+import { DcgisPropertyWrapper } from '../external/dcgis/dcgis-property-wrapper.service';
 import { ZillowWrapper } from '../external/zillow/zillow.wrapper';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class PropertiesService {
   constructor(
     @InjectRepository(PropertiesRepository)
     private propertyRepository: PropertiesRepository,
-    private dcgisWrapper: DcgisWrapper,
+    private dcgisWrapper: DcgisPropertyWrapper,
     private zillowWrapper: ZillowWrapper,
   ) {}
 
